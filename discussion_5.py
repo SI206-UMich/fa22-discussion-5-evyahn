@@ -3,8 +3,8 @@ import unittest
 # Counts the number of a's in a sentence (e.g., a string)
 def count_a(sentence):
 	total = 0
-	for i in range(len(sentence) - 1):
-		if i == 'a':
+	for i in range(len(sentence)):
+		if sentence[i] == 'a' or sentence[i] == "A":
 			total += 1
 	return total
 
@@ -38,16 +38,25 @@ class Warehouse:
 
 	# Adds an item to the warehouse	
 	def add_item(self, item):
-		pass
+		self.items.append(item)
 
 	# Returns the item in the warehouse with the most stock		
 	def get_max_stock(self):
-		pass
+		max = self.items[0].stock
+		max_item = self.items[0]
+		for item in self.items:
+			if item.stock > max:
+				max_item = item
+		return max_item
 	
 	# Returns the item in the warehouse with the highest price
 	def get_max_price(self):
-		pass	
-
+		max = self.items[0].price
+		max_item = self.items[0]
+		for item in self.items:
+			if item.price > max:
+				max_item = item
+		return max_item
 
 
 # Tests
@@ -60,20 +69,26 @@ class TestAllMethods(unittest.TestCase):
 		self.item3 = Item("Water", 1, 100)
 		self.item4 = Item("Fanta", 2, 60)
 		self.item5 = Item("CocaCola", 3, 40)
+		self.item6 = Item("AppleJuice", 3, 30)
+		self.item7 = Item("Americano", 3, 75)
 
 	## Check to see whether count_a works
 	def test_count_a(self):
-		pass
-
+		self.assertEqual(count_a(self.item1.name), 0)
+		self.assertEqual(count_a(self.item3.name), 1)
+		self.assertEqual(count_a(self.item4.name), 2)
+		self.assertEqual(count_a(self.item6.name), 1)
+		self.assertEqual(count_a(self.item7.name), 2)
 
 	## Check to see whether you can add an item to the warehouse
 	def test_add_item(self):
-		pass
-
+		self.warehouse1 = Warehouse([self.item1, self.item2, self.item3, self.item4])
+		self.warehouse2 = Warehouse([self.item1, self.item2, self.item3, self.item4, self.item5])
+		# self.assertEqual(self.warehouse1.add_item(self.item5), self.warehouse2)
 
 	## Check to see whether warehouse correctly returns the item with the most stock
 	def test_warehouse_max_stocks(self):
-		pass
+		self.assertEqual(self.warehouse1.get_max_stock(), self.item3)
 
 
 	# Check to see whether the warehouse correctly return the item with the highest price
